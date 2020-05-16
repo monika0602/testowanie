@@ -14,9 +14,7 @@ namespace ConsoleApp3
         static void Main(string[] args)
         {
             IWebDriver driver = new ChromeDriver();
-            //IWebDriver driver = new FirefoxDriver();
-
-            //driver.Url = "http://ux.up.krakow.pl/~mazela";
+            
             driver.Url = "http://www.demoqa.com";
             makeTest(driver);
             driver = new ChromeDriver();
