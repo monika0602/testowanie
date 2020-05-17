@@ -250,7 +250,42 @@ namespace ConsoleApp3
         }
 
         [Test]
-        public void T_12_Search()
+        public void T_12_GoToCheckOutLoggedIn()
+        {
+            string email = "grazyna.binkiewicz91@gmail.com";
+            string password = "haslo1";
+            string successUrl = BASE_URL + "?controller=order&step=1";
+
+            driver.Navigate().GoToUrl(BASE_URL + accountUrl);
+            IWebElement emailForm = driver.FindElement(By.Id("email"));
+            IWebElement passwordForm = driver.FindElement(By.Id("passwd"));
+            IWebElement btnSubmit = driver.FindElement(By.Id("SubmitLogin"));
+
+            emailForm.SendKeys(email);
+            passwordForm.SendKeys(password);
+            btnSubmit.Click();
+            Thread.Sleep(3000);
+
+            driver.Navigate().GoToUrl(BASE_URL + "?id_product=3&controller=product");
+
+            IWebElement parent = driver.FindElement(By.Id("add_to_cart"));
+            IWebElement btnSubmit2 = parent.FindElement(By.CssSelector("button[type=submit]"));
+
+            btnSubmit2.Click();
+            Thread.Sleep(200);
+            driver.FindElement(By.CssSelector("a[href *= 'controller=order']")).Click();
+            Thread.Sleep(3000);
+            driver.Navigate().GoToUrl(BASE_URL + cartUrl);
+
+            driver.FindElement(By.CssSelector("a[href *= 'controller=order&step=1']")).Click();
+
+
+            Assert.AreEqual(successUrl, driver.Url);
+
+        }
+
+        [Test]
+        public void T_13_Search()
         {
             string input = "dresses";
             string successUrl = BASE_URL + "?controller=search&orderby=position&orderway=desc&search_query=dresses&submit_search=";
